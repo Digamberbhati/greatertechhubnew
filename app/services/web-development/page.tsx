@@ -6,6 +6,8 @@ export const metadata = {
   description: "Custom, responsive websites built with cutting-edge technologies for optimal performance.",
 }
 
+export const dynamic = "force-static"
+
 export default function WebDevelopment() {
   const features = [
     "Responsive Design",

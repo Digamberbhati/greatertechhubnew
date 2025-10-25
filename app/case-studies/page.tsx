@@ -8,6 +8,8 @@ export const metadata = {
   description: "Explore our successful projects and see how we've helped businesses achieve their goals.",
 }
 
+export const dynamic = "force-static"
+
 export default function CaseStudies() {
   const caseStudies = [
     {

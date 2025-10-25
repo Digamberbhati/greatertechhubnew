@@ -8,6 +8,19 @@ export const metadata = {
   description: "Detailed case study of our successful project implementation.",
 }
 
+export const dynamic = "force-static"
+
+export function generateStaticParams() {
+  return [
+    { id: "1" },
+    { id: "2" },
+    { id: "3" },
+    { id: "4" },
+    { id: "5" },
+    { id: "6" },
+  ]
+}
+
 export default function CaseStudyDetail({ params }: { params: { id: string } }) {
   const caseStudies: Record<
     string,

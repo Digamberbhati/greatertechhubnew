@@ -6,6 +6,8 @@ export const metadata = {
   description: "Native and cross-platform mobile applications that engage users and drive business growth.",
 }
 
+export const dynamic = "force-static"
+
 export default function AppDevelopment() {
   const features = [
     "Native & Cross-Platform",

@@ -6,6 +6,8 @@ export const metadata = {
   description: "Privacy policy for GreaterTechHub services.",
 }
 
+export const dynamic = "force-static"
+
 export default function Privacy() {
   return (
     <main className="min-h-screen">

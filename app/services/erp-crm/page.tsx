@@ -6,6 +6,8 @@ export const metadata = {
   description: "Enterprise solutions tailored to streamline your business processes.",
 }
 
+export const dynamic = "force-static"
+
 export default function ERPCRM() {
   const features = [
     "Custom ERP Solutions",

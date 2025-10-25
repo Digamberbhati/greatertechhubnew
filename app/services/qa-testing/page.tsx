@@ -6,6 +6,8 @@ export const metadata = {
   description: "Comprehensive testing services ensuring quality and reliability of your software.",
 }
 
+export const dynamic = "force-static"
+
 export default function QATesting() {
   const features = [
     "Functional Testing",

@@ -6,6 +6,8 @@ export const metadata = {
   description: "Creative animation and video production services that captivate your audience.",
 }
 
+export const dynamic = "force-static"
+
 export default function Animation() {
   const features = [
     "2D Animation",

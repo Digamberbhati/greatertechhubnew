@@ -6,6 +6,8 @@ export const metadata = {
   description: "Intelligent AI solutions that automate processes and enhance customer interactions.",
 }
 
+export const dynamic = "force-static"
+
 export default function AIAgents() {
   const features = [
     "Intelligent Chatbots",

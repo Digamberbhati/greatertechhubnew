@@ -6,6 +6,8 @@ export const metadata = {
   description: "Terms and conditions for GreaterTechHub services.",
 }
 
+export const dynamic = "force-static"
+
 export default function Terms() {
   return (
     <main className="min-h-screen">

@@ -6,6 +6,8 @@ export const metadata = {
   description: "Strategic marketing campaigns and branding solutions to elevate your online presence.",
 }
 
+export const dynamic = "force-static"
+
 export default function DigitalMarketing() {
   const features = [
     "SEO Optimization",

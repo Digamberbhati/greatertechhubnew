@@ -7,6 +7,8 @@ export const metadata = {
   description: "Learn about GreaterTechHub's mission, values, and the team behind our innovative IT solutions.",
 }
 
+export const dynamic = "force-static"
+
 export default function About() {
   const stats = [
     { icon: Users, label: "Team Members", value: "150+" },

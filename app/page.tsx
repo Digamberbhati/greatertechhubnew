@@ -1,5 +1,3 @@
-"use client"
-
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AnimatedServiceCard } from "@/components/animated-service-card"
@@ -7,6 +5,8 @@ import { ScrollReveal } from "@/components/scroll-reveal"
 import { ParallaxSection } from "@/components/parallax-section"
 import { TestimonialCard } from "@/components/testimonial-card"
 import { Globe, Smartphone, TrendingUp, Cloud, Database, CheckCircle, Zap, Film } from "lucide-react"
+
+export const dynamic = "force-static"
 
 export default function Home() {
   const services = [

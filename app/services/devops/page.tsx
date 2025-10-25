@@ -6,6 +6,8 @@ export const metadata = {
   description: "Scalable cloud infrastructure and DevOps solutions for seamless operations.",
 }
 
+export const dynamic = "force-static"
+
 export default function DevOps() {
   const features = [
     "Cloud Infrastructure",
