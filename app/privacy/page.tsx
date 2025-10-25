@@ -17,7 +17,7 @@ export default function Privacy() {
       <section className="relative py-20 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-5xl md:text-6xl font-bold mb-4 text-foreground">Privacy Policy</h1>
-          <p className="text-xl text-foreground">Last updated: October 2024</p>
+          <p className="text-xl text-foreground">Last updated: October 2025</p>
         </div>
       </section>
 
