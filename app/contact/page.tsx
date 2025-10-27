@@ -3,8 +3,9 @@
 import type React from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { CheckCircle, Mail, Phone, MapPin, Twitter, Linkedin, Instagram } from "lucide-react"
+import ReCAPTCHA from "react-google-recaptcha"
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,18 +17,31 @@ export default function Contact() {
 
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token)
+    setError(null)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!recaptchaToken) {
+      setError("Please complete the reCAPTCHA verification.")
+      return
+    }
 
     const data = {
       access_key: "8739b33b-939a-4751-ad7b-f09ad3a1c955",
       ...formData,
+      "g-recaptcha-response": recaptchaToken,
     }
 
     try {
@@ -50,12 +64,18 @@ export default function Contact() {
           subject: "",
           message: "",
         })
+        setRecaptchaToken(null)
+        recaptchaRef.current?.reset()
         setTimeout(() => setSubmitted(false), 3000)
       } else {
         setError("Something went wrong. Please try again.")
+        recaptchaRef.current?.reset()
+        setRecaptchaToken(null)
       }
     } catch (err) {
       setError("Network error. Please try again later.")
+      recaptchaRef.current?.reset()
+      setRecaptchaToken(null)
     }
   }
 
@@ -145,6 +165,13 @@ export default function Contact() {
                   className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all duration-300"
                   placeholder="Your message..."
                 ></textarea>
+              </div>
+              <div className="flex justify-center">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey="6LcvIfkrAAAAADHKLe76tz_IB8D3WFcr7eK9G4sk"
+                  onChange={handleRecaptchaChange}
+                />
               </div>
               <button
                 type="submit"
