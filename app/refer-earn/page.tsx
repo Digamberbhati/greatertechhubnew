@@ -1,11 +1,11 @@
 "use client"
 
 import type React from "react"
-
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { CheckCircle, Gift, TrendingUp, Users } from "lucide-react"
+import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/ReCAPTCHA"
 
 export default function ReferEarn() {
   const [referralData, setReferralData] = useState({
@@ -18,26 +18,70 @@ export default function ReferEarn() {
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
+  const recaptchaRef = useRef<ReCAPTCHARef>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setReferralData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token)
+    setError(null)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setReferralData({
-        referrerName: "",
-        referrerEmail: "",
-        clientName: "",
-        clientEmail: "",
-        clientCompany: "",
-        serviceInterest: "",
+
+    if (!recaptchaToken) {
+      setError("Please complete the reCAPTCHA verification.")
+      return
+    }
+
+    // Simulate API call (Replace with Web3Forms or your backend)
+    const data = {
+      access_key: "8739b33b-939a-4751-ad7b-f09ad3a1c955",
+      ...referralData,
+      "g-recaptcha-response": recaptchaToken,
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      setSubmitted(false)
-    }, 3000)
+
+      const result = await response.json()
+
+      if (result.success) {
+        setSubmitted(true)
+        setReferralData({
+          referrerName: "",
+          referrerEmail: "",
+          clientName: "",
+          clientEmail: "",
+          clientCompany: "",
+          serviceInterest: "",
+        })
+        setRecaptchaToken(null)
+        recaptchaRef.current?.reset()
+        setTimeout(() => setSubmitted(false), 3000)
+      } else {
+        setError("Submission failed. Please try again.")
+        recaptchaRef.current?.reset()
+        setRecaptchaToken(null)
+      }
+    } catch (err) {
+      setError("Network error. Please try again.")
+      recaptchaRef.current?.reset()
+      setRecaptchaToken(null)
+    }
   }
 
   return (
@@ -127,7 +171,7 @@ export default function ReferEarn() {
           <h2 className="text-4xl font-bold mb-12 text-center">Submit a Referral</h2>
 
           {submitted ? (
-            <div className="p-8 bg-secondary rounded-lg border-2 border-accent text-center">
+            <div className="p-8 bg-secondary rounded-lg border-2 border-accent text-center animate-fade-in-up">
               <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
               <h3 className="text-2xl font-bold mb-2 text-foreground">Referral Submitted!</h3>
               <p className="text-muted-foreground">
@@ -136,6 +180,12 @@ export default function ReferEarn() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="p-4 bg-red-100 text-red-700 rounded-lg text-center">
+                  {error}
+                </div>
+              )}
+
               <div className="p-6 bg-secondary rounded-lg mb-6">
                 <h3 className="font-bold text-foreground mb-2">Your Information</h3>
                 <p className="text-sm text-muted-foreground">Tell us about yourself</p>
@@ -232,6 +282,9 @@ export default function ReferEarn() {
                   <option value="animation">Animation & Video</option>
                 </select>
               </div>
+
+              {/* ReCAPTCHA */}
+              <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
 
               <button
                 type="submit"

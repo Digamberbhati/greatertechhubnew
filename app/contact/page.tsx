@@ -3,9 +3,9 @@
 import type React from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 import { CheckCircle, Mail, Phone, MapPin, Twitter, Linkedin, Instagram } from "lucide-react"
-import ReCAPTCHA from "react-google-recaptcha"
+import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/ReCAPTCHA"
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const recaptchaRef = useRef<ReCAPTCHARef>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -58,12 +58,7 @@ export default function Contact() {
 
       if (result.success) {
         setSubmitted(true)
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        })
+        setFormData({ name: "", email: "", subject: "", message: "" })
         setRecaptchaToken(null)
         recaptchaRef.current?.reset()
         setTimeout(() => setSubmitted(false), 3000)
@@ -166,13 +161,10 @@ export default function Contact() {
                   placeholder="Your message..."
                 ></textarea>
               </div>
-              <div className="flex justify-center">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey="6LcvIfkrAAAAADHKLe76tz_IB8D3WFcr7eK9G4sk"
-                  onChange={handleRecaptchaChange}
-                />
-              </div>
+
+              {/* Reusable ReCAPTCHA */}
+              <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
+
               <button
                 type="submit"
                 className="w-full px-8 py-3 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-primary-foreground rounded-lg hover:bg-[#1E1E1E] hover:shadow-lg transition-all duration-300 font-semibold shadow-md"

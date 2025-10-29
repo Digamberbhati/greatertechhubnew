@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
+import Image from "next/image"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,21 +12,25 @@ export function Navbar() {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
-    // { href: "/case-studies", label: "Case Studies" },
     { href: "/contact", label: "Contact" },
-
   ]
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">GT</span>
+          {/* Logo with Image */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative w-35 h-30">
+              <Image
+                src="/logo.png" // Ya /logo.png
+                alt="GreaterTechHub Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
-            <span className="font-bold text-lg hidden sm:inline">GreaterTechHub</span>
+            
           </Link>
 
           {/* Desktop Navigation */}
@@ -52,7 +57,11 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+          <button
+            className="md:hidden"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
