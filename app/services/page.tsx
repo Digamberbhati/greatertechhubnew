@@ -1,5 +1,8 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { Button } from "@/components/ui/button"
+import { ArrowRight, ExternalLink } from "lucide-react"
+import Link from "next/link"
 
 export const metadata = {
   title: "Services | GreaterTechHub",
@@ -15,97 +18,192 @@ export default function Services() {
 
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-foreground">Our Services</h1>
-          <p className="text-xl text-foreground">Empowering businesses with innovative technology solutions.</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground animate-fade-in-scale">
+            Our Services
+          </h1>
+          <p className="text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto">
+            Empowering businesses with cutting-edge technology solutions that drive real growth.
+          </p>
         </div>
       </section>
 
-      {/* Services Section with 3D Cards */}
-      <section className="py-20 bg-white">
+      {/* Services Grid - FULLY LINKED */}
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Explore Our Services</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Website Development Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Website Development</h3>
-                <p className="text-muted-foreground leading-relaxed">Custom, responsive websites built with cutting-edge technologies for optimal performance.</p>
-              </div>
-            </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center text-foreground">
+            Explore Our Services
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
 
-            {/* App Development Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-green-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">App Development</h3>
-                <p className="text-muted-foreground leading-relaxed">Native and cross-platform mobile applications that engage users and drive business growth.</p>
+            <Link href="/services/web-development" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">Website Development</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    Custom, responsive websites built with Next.js, React, and modern tools.
+                  </p>
+                  <Button variant="ghost" className="text-blue-600 hover:text-blue-700 font-semibold 
+                                                  flex items-center gap-2 group/btn">
+                    View Details <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
+                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 
+                                transition-all duration-500">
+                  <ExternalLink className="w-6 h-6 text-blue-600" />
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* Digital Marketing Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Digital Marketing & Branding</h3>
-                <p className="text-muted-foreground leading-relaxed">Strategic marketing campaigns and branding solutions to elevate your online presence.</p>
+            <Link href="/services/app-development" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-green-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">App Development</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    Native & cross-platform apps with React Native, Flutter, Swift & Kotlin.
+                  </p>
+                  <Button variant="ghost" className="text-green-600 hover:text-green-700 font-semibold 
+                                                  flex items-center gap-2 group/btn">
+                    Build App <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* DevOps Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-orange-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">DevOps & Cloud Services</h3>
-                <p className="text-muted-foreground leading-relaxed">Scalable cloud infrastructure and DevOps solutions for seamless operations.</p>
+            <Link href="/services/digital-marketing" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">Digital Marketing & Branding</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    SEO, PPC, Social Media, Content — full growth marketing stack.
+                  </p>
+                  <Button variant="ghost" className="text-purple-600 hover:text-purple-700 font-semibold 
+                                                  flex items-center gap-2 group/btn">
+                    Grow Now <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* ERP/CRM Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-indigo-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">ERP / CRM & System Design</h3>
-                <p className="text-muted-foreground leading-relaxed">Enterprise solutions tailored to streamline your business processes.</p>
+            <Link href="/services/devops" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-orange-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">DevOps & Cloud Services</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    AWS, Docker, Kubernetes, CI/CD — zero downtime deployments.
+                  </p>
+                  <Button variant="ghost" className="text-orange-600 hover:text-orange-700 font-semibold">
+                    Scale Smart <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* QA Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-50 to-red-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">QA & Software Testing</h3>
-                <p className="text-muted-foreground leading-relaxed">Comprehensive testing services ensuring quality and reliability of your software.</p>
+            <Link href="/services/erp-crm" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-indigo-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">ERP / CRM & System Design</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    Odoo, Salesforce, Custom ERP — automate your entire business.
+                  </p>
+                  <Button variant="ghost" className="text-indigo-600 hover:text-indigo-700 font-semibold">
+                    Optimize <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* AI Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-50 to-pink-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">AI Agents & Chatbots</h3>
-                <p className="text-muted-foreground leading-relaxed">Intelligent AI solutions that automate processes and enhance customer interactions.</p>
+            <Link href="/services/qa-testing" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-50 to-red-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">QA & Software Testing</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    Manual + Automation (Selenium, Cypress, Playwright).
+                  </p>
+                  <Button variant="ghost" className="text-red-600 hover:text-red-700 font-semibold">
+                    Ship Bug-Free <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* Animation Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-yellow-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">2D & 3D Animation & Video</h3>
-                <p className="text-muted-foreground leading-relaxed">Creative animation and video production services that captivate your audience.</p>
+            <Link href="/services/ai-agents" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-50 to-pink-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">AI Agents & Chatbots</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    GPT-4 agents, RAG, Voice bots, WhatsApp automation.
+                  </p>
+                  <Button variant="ghost" className="text-pink-600 hover:text-pink-700 font-semibold">
+                    Automate 24/7 <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* Main IT Infrastructure & IT Audit Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer perspective-1000 transition-all duration-500 hover:shadow-2xl hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-teal-50 to-teal-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-8 transform group-hover:rotate-y-12 origin-center transition-transform duration-700 ease-out">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Main IT Infrastructure & IT Audit</h3>
-                <p className="text-muted-foreground leading-relaxed">Robust IT infrastructure setup and comprehensive IT audits to ensure security and efficiency.</p>
+            <Link href="/services/animation" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-yellow-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">2D & 3D Animation & Video</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    Explainer videos, motion graphics, 3D product demos.
+                  </p>
+                  <Button variant="ghost" className="text-yellow-600 hover:text-yellow-700 font-semibold">
+                    Watch Reels <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Link>
+            <Link href="/services/it-infrastructure-audit" className="block group">
+              <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 
+                              transition-all duration-700 hover:shadow-2xl hover:scale-105 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-yellow-100 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative p-10 transform group-hover:rotate-y-6 origin-bottom 
+                                transition-transform duration-700">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">IT Infrastructure & Audit</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    Explainer videos, motion graphics, 3D product demos.
+                  </p>
+                  <Button variant="ghost" className="text-yellow-600 hover:text-yellow-700 font-semibold">
+                    connect <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                  </Button>
+                </div>
+              </div>
+            </Link>
+
           </div>
         </div>
       </section>
@@ -116,39 +214,28 @@ export default function Services() {
           <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Our Project Completion Process</h2>
           <div className="space-y-8">
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                1
-              </div>
+              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">1</div>
               <div>
                 <h3 className="text-2xl font-bold mb-2 text-foreground">Discovery & Planning</h3>
                 <p className="text-muted-foreground leading-relaxed">We start by understanding your requirements, goals, and challenges to create a tailored project roadmap.</p>
               </div>
             </div>
-
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
-                2
-              </div>
+              <div className="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">2</div>
               <div>
                 <h3 className="text-2xl font-bold mb-2 text-foreground">Design & Development</h3>
                 <p className="text-muted-foreground leading-relaxed">Our team designs wireframes, prototypes, and builds the solution using the latest technologies.</p>
               </div>
             </div>
-
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
-                3
-              </div>
+              <div className="flex-shrink-0 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
               <div>
                 <h3 className="text-2xl font-bold mb-2 text-foreground">Testing & Iteration</h3>
                 <p className="text-muted-foreground leading-relaxed">Rigorous QA testing ensures quality, with iterations based on your feedback for perfection.</p>
               </div>
             </div>
-
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
-                4
-              </div>
+              <div className="flex-shrink-0 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
               <div>
                 <h3 className="text-2xl font-bold mb-2 text-foreground">Deployment & Support</h3>
                 <p className="text-muted-foreground leading-relaxed">We launch your project and provide ongoing support, maintenance, and scaling as needed.</p>
@@ -164,22 +251,20 @@ export default function Services() {
           <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Frequently Asked Questions</h2>
           <p className="text-xl text-center text-muted-foreground mb-8">Get insights into our technologies, project timelines, and more in this interactive FAQ.</p>
           <div className="space-y-6">
-            {/* FAQ Item 1: Technologies */}
             <details className="group bg-gray-50 rounded-xl p-6 shadow-md transition-all duration-300 hover:shadow-lg">
               <summary className="flex justify-between items-center cursor-pointer text-2xl font-bold text-foreground group-open:text-blue-600">
                 What technologies do we work with?
-                <span className="text-blue-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+                <span className="text-blue-500 group-open:rotate-180 transition-transform duration-300">Down Arrow</span>
               </summary>
               <div className="mt-4 text-muted-foreground leading-relaxed">
                 <p>We work with all modern technologies tailored to your project needs. Whether it's front-end frameworks like React, Vue, or Angular; back-end with Node.js, Python, or Java; cloud platforms like AWS, Azure, or Google Cloud; or emerging tech like AI/ML and blockchain—we've got you covered across the board.</p>
               </div>
             </details>
 
-            {/* FAQ Item 2: Project Delivery Timelines */}
             <details className="group bg-gray-50 rounded-xl p-6 shadow-md transition-all duration-300 hover:shadow-lg">
               <summary className="flex justify-between items-center cursor-pointer text-2xl font-bold text-foreground group-open:text-blue-600">
                 How long does it take to deliver projects?
-                <span className="text-blue-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+                <span className="text-blue-500 group-open:rotate-180 transition-transform duration-300">Down Arrow</span>
               </summary>
               <div className="mt-4 text-muted-foreground leading-relaxed">
                 <p>Our delivery timelines vary based on project complexity. Here's a breakdown for each service:</p>
@@ -197,11 +282,10 @@ export default function Services() {
               </div>
             </details>
 
-            {/* FAQ Item 3: Why Choose Us */}
             <details className="group bg-gray-50 rounded-xl p-6 shadow-md transition-all duration-300 hover:shadow-lg">
               <summary className="flex justify-between items-center cursor-pointer text-2xl font-bold text-foreground group-open:text-blue-600">
                 Why choose GreaterTechHub for your projects?
-                <span className="text-blue-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+                <span className="text-blue-500 group-open:rotate-180 transition-transform duration-300">Down Arrow</span>
               </summary>
               <div className="mt-4 text-muted-foreground leading-relaxed">
                 <p>We combine expertise, innovation, and speed to deliver high-quality solutions. With a focus on client satisfaction, we ensure every project is scalable, secure, and future-proof.</p>
@@ -217,7 +301,6 @@ export default function Services() {
           <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Our Success Stories</h2>
           <p className="text-xl text-center text-muted-foreground mb-12">See how we help businesses grow with our supportive and innovative approach.</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Case Study 1: E-commerce Website */}
             <div className="group bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl hover:scale-105">
               <div className="relative p-8">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">E-commerce Website for a Local Store</h3>
@@ -230,7 +313,6 @@ export default function Services() {
               </div>
             </div>
 
-            {/* Case Study 2: Mobile App for a Startup */}
             <div className="group bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl hover:scale-105">
               <div className="relative p-8">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Mobile App for a Food Delivery Startup</h3>
@@ -243,7 +325,6 @@ export default function Services() {
               </div>
             </div>
 
-            {/* Case Study 3: IT Infrastructure for a Small Business */}
             <div className="group bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl hover:scale-105">
               <div className="relative p-8">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">IT Infrastructure for a Small Business</h3>
