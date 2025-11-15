@@ -8,8 +8,10 @@ import { Globe, Smartphone, TrendingUp, Cloud, Database, CheckCircle, Zap, Film,
 import { HeroSection } from "@/components/hero-section";
 import { ClientTestimonials } from "@/components/client-testimonials";
 import { Button } from "@/components/ui/button";
+
 import { ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import Marquee from "react-fast-marquee"; // Added for client logos
 
 export const dynamic = "force-static";
 
@@ -98,6 +100,24 @@ export default function Home() {
     },
   ];
 
+  // Client Logos (Replace with actual client logo paths)
+  const clientLogos = [
+    { url: '/clients/bhati-organisation.png', alt: 'Bhati Organisation' },
+    { url: '/clients/krishi.png', alt: 'Certificate' },
+    { url: '/clients/Fbdtravels.png', alt: 'fbdtravels' },
+    { url: '/clients/sfci.png', alt: 'SFCI' },
+    { url: '/clients/auto.png', alt: 'shiradheautomobile' },
+    { url: '/clients/goprimelink.png', alt: 'Goprimelink' },
+    { url: '/clients/lokesh.png', alt: 'Lokesh' },
+    { url: '/clients/jagat-fertilizer.png', alt: 'Jagat Fertilizer' },
+    { url: '/clients/kfs.png', alt: 'KFS' },
+    { url: '/clients/krgroups.png', alt: 'KR Groups' },
+    { url: '/clients/vrdental.png', alt: 'VR Dental' },
+    { url: '/clients/phonebaazar.png', alt: 'Phone Baazar' },
+    { url: '/clients/qhmeter.png', alt: 'qhmeter' },
+    { url: '/clients/remosys.png', alt: 'remosys' },
+  ];
+
   return (
     <main className="min-h-screen">
       <Navbar />
@@ -105,6 +125,36 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection />
 
+      {/* Client Logos Marquee - FULL WIDTH 100% + NO SCROLLBAR */}
+<section className="py-12 bg-gray-50 border-t border-b border-gray-200 w-full overflow-x-hidden">
+  <div className="w-full">
+    <ScrollReveal>
+      <p className="text-center text-sm text-muted-foreground mb-8 font-medium">
+        Trusted by leading companies worldwide
+      </p>
+    </ScrollReveal>
+
+    {/* Full Width Marquee with NO SCROLLBAR */}
+    <div className="w-full overflow-x-hidden">
+      <Marquee gradient={false} speed={60} pauseOnHover className="w-full">
+        <div className="flex items-center gap-16 px-8">
+          {clientLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-32 h-20 md:w-40 md:h-24 grayscale hover:grayscale-0 transition-all duration-500 hover:scale-110"
+            >
+              <img
+                src={logo.url}
+                alt={logo.alt}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          ))}
+        </div>
+      </Marquee>
+    </div>
+  </div>
+</section>
       {/* Services Section - Premium 3D Cards */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -180,116 +230,119 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why Choose GreaterTechHub - Center Image + 6 Cards Around */}
-      <section className="py-24 bg-secondary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center text-foreground text-balance">
-              Why Choose GreaterTechHub?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-16 text-center max-w-3xl mx-auto">
-              We combine expertise, innovation, and dedication to deliver exceptional results.
-            </p>
-          </ScrollReveal>
+     {/* Why Choose GreaterTechHub - 6 POINTS, NO VIDEO/IMAGE/INSTAGRAM */}
+<section className="py-16 md:py-20 bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Desktop: 3x3 Grid with Center Image */}
-          <div className="hidden lg:grid grid-cols-3 gap-6 items-center">
-            <WhyChooseCard item={whyChooseData[0]} index={0} />
-            <div />
-            <WhyChooseCard item={whyChooseData[1]} index={1} />
+    {/* Heading */}
+    <ScrollReveal>
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-3">
+          Why Choose Us?
+        </h2>
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          Because <span className="text-primary font-bold">excellence is our standard</span>.
+        </p>
+      </div>
+    </ScrollReveal>
 
-            <WhyChooseCard item={whyChooseData[2]} index={2} />
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-              <img 
-                src="/ecommerce-platform-concept.png" 
-                alt="GreaterTechHub Team"
-                className="w-full h-auto rounded-3xl shadow-2xl transition-all duration-700 hover:scale-105 hover:shadow-3xl border border-border"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-6">
-                <p className="text-white font-bold text-lg">Your Success. Our Mission.</p>
-              </div>
-            </div>
-            <WhyChooseCard item={whyChooseData[3]} index={3} />
-
-            <WhyChooseCard item={whyChooseData[4]} index={4} />
-            <div />
-            <WhyChooseCard item={whyChooseData[5]} index={5} />
+    {/* 6 Points Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        { title: "10+ Years Experience", desc: "Proven track record in tech" },
+        { title: "On-Time Delivery", desc: "Every project, every deadline" },
+        { title: "100+ Happy Clients", desc: "Trusted by businesses globally" },
+        { title: "24/7 Support", desc: "Real humans, real solutions" },
+        { title: "Transparent Pricing", desc: "No hidden fees, ever" },
+        { title: "Scalable Solutions", desc: "Grow without limits" },
+      ].map((item, i) => (
+        <ScrollReveal key={i} delay={i * 80}>
+          <div className="group p-5 rounded-xl bg-white/70 dark:bg-white/5 backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-default">
+            <h3 className="text-lg font-bold text-foreground mb-1">{item.title}</h3>
+            <p className="text-sm text-muted-foreground">{item.desc}</p>
+            
+            {/* Subtle Shine */}
+            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 group-hover:translate-x-full transition-transform duration-1000 -z-10"></div>
           </div>
+        </ScrollReveal>
+      ))}
+    </div>
 
-          {/* Mobile & Tablet */}
-          <div className="lg:hidden space-y-12">
-            <ScrollReveal>
-              <div className="relative group mx-auto max-w-md">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                <img 
-                  src="/images/team-collaboration.jpg" 
-                  alt="GreaterTechHub Team"
-                  className="w-full h-auto rounded-3xl shadow-2xl transition-all duration-700 hover:scale-105 hover:shadow-3xl border border-border"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-6">
-                  <p className="text-white font-bold text-lg">Your Success. Our Mission.</p>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {whyChooseData.map((item, i) => (
-                <WhyChooseCard key={i} item={item} index={i} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+  </div>
+</section>
 
       {/* Client Testimonials */}
       <ClientTestimonials />
 
-     {/* CTA Section with Fixed Background Image */}
-{/* CTA Section - Refer & Earn with Blurred Fixed Background */}
-<section className="py-32 relative overflow-hidden">
-  {/* Fixed Background with Blur */}
-  <div 
-    className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed -z-10"
-    style={{
-      backgroundImage: `url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
-    }}
-  />
-  
-  {/* Blur + Dark Overlay */}
-  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm -z-10" />
+      {/* CTA Section - Refer & Earn */}
+      <section className="py-32 relative overflow-hidden">
+        {/* Background */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed -z-10"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+          }}
+        />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm -z-10" />
 
-  <ParallaxSection>
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <ScrollReveal>
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-xl text-balance">
-          Refer a Friend, Earn <span className="text-accent">₹10,000</span>!
-        </h2>
-        <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
-          Share GreaterTechHub with your network. When they become a client, <br />
-          <span className="font-bold text-accent">you both get ₹10,000 credit</span> on your next project!
-        </p>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
 
-        {/* Shareable Referral Link */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-          <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl px-6 py-3 text-white font-mono text-sm sm:text-base">
-            https://greatertechhub.com/ref/you
+          {/* 15 Dec Badge */}
+          <div className="inline-flex items-center gap-2 bg-red-600/20 backdrop-blur-md border border-red-500/40 text-red-300 px-4 py-1.5 rounded-full text-xs font-semibold mb-6 animate-pulse">
+            <span className="w-2 h-2 bg-red-400 rounded-full animate-ping"></span>
+            Valid till 15 Dec 2025
           </div>
-          <button className="px-8 py-4 bg-accent text-white rounded-full hover:bg-accent/90 transition-all font-bold text-lg hover:scale-105 transform shadow-xl hover:shadow-2xl flex items-center gap-2">
-            Copy Link & Share
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </button>
-        </div>
 
-        <p className="text-sm text-white/70 mt-6">
-          *T&C Apply | Valid for projects above ₹1,00,000
-        </p>
-      </ScrollReveal>
-    </div>
-  </ParallaxSection>
-</section>
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-xl text-balance">
+            Refer a Friend, Earn <span className="text-accent">₹10,000</span>!
+          </h2>
+          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
+            Share GreaterTechHub with your network. When they become a client, <br />
+            <span className="font-bold text-accent">you both get ₹10,000 credit</span> on your next project!
+          </p>
+
+          {/* Referral Link + Copy Button */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl px-6 py-3 text-white font-mono text-sm sm:text-base select-all">
+              https://greatertechhub.com/refer-earn
+            </div>
+
+            {/* Button with Inline Script – No onClick, No Error */}
+            <button
+              id="copy-referral-btn"
+              className="px-8 py-4 bg-accent text-white rounded-full hover:bg-accent/90 transition-all font-bold text-lg hover:scale-105 transform shadow-xl hover:shadow-2xl flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              <span id="copy-text">Copy Link & Share</span>
+            </button>
+          </div>
+
+          <p className="text-sm text-white/70 mt-6">
+            *T&C Apply | Valid for projects above ₹1,00,000 | Offer ends <span className="text-red-400 font-medium">15 Dec 2025</span>
+          </p>
+        </div>
+      </section>
+
+      {/* Inline Script – No React, No onClick, No Error */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            document.getElementById('copy-referral-btn')?.addEventListener('click', function() {
+              const url = 'https://greatertechhub.com/refer-earn';
+              navigator.clipboard.writeText(url).then(() => {
+                const text = document.getElementById('copy-text');
+                const original = text.innerHTML;
+                text.innerHTML = 'Copied!';
+                setTimeout(() => text.innerHTML = original, 2000);
+              }).catch(() => {
+                alert('Copy failed! Select and copy manually.');
+              });
+            });
+          `,
+        }}
+      />
       <Footer />
     </main>
   );

@@ -25,13 +25,11 @@ export function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-tr from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center text-lg font-bold shadow-lg">
-                GT
-              </div>
+             
               <span className="text-xl font-bold tracking-wide">GreaterTechHub</span>
             </div>
             <p className="text-sm text-gray-300 mb-6">
-              Empowering innovation with technology — software, web, and digital growth solutions.
+              Social media is not just about posting content; it's about building relationships and engaging with your audience. Connect with us on these platforms to stay updated and interact with our community.
             </p>
 
             {/* 🌐 Social Media Icons */}

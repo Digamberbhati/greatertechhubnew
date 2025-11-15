@@ -1,3 +1,4 @@
+// app/refer-earn/page.tsx
 "use client"
 
 import type React from "react"
@@ -40,9 +41,8 @@ export default function ReferEarn() {
       return
     }
 
-    // Simulate API call (Replace with Web3Forms or your backend)
     const data = {
-      access_key: "8739b33b-939a-4751-ad7b-f09ad3a1c955",
+      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY, // ← .env se
       ...referralData,
       "g-recaptcha-response": recaptchaToken,
     }
@@ -283,7 +283,7 @@ export default function ReferEarn() {
                 </select>
               </div>
 
-              {/* ReCAPTCHA */}
+              {/* LIVE reCAPTCHA */}
               <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
 
               <button

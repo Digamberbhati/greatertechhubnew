@@ -39,7 +39,7 @@ export default function Contact() {
     }
 
     const data = {
-      access_key: "8739b33b-939a-4751-ad7b-f09ad3a1c955",
+      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
       ...formData,
       "g-recaptcha-response": recaptchaToken,
     }
@@ -81,10 +81,10 @@ export default function Contact() {
       {/* Hero Section */}
       <section className="relative py-28 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground text-balance bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1] drop-shadow-md animate-fade-in">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground text-balance bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1] drop-shadow-md">
             Contact GreaterTechHub
           </h1>
-          <p className="text-xl text-foreground max-w-2xl mx-auto drop-shadow-sm animate-fade-in">
+          <p className="text-xl text-foreground max-w-2xl mx-auto drop-shadow-sm">
             Choose the most convenient way to reach us. We're here to help you succeed with the right technology solutions.
           </p>
         </div>
@@ -94,12 +94,12 @@ export default function Contact() {
       <section className="py-28 bg-white relative">
         <div className="absolute inset-0 bg-gradient-to-r from-[#B3E5FC]/10 to-[#81D4FA]/10"></div>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="text-4xl font-bold mb-12 text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1] animate-fade-in">
+          <h2 className="text-4xl font-bold mb-12 text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1]">
             Get In Touch
           </h2>
 
           {submitted ? (
-            <div className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-center animate-fade-in-up">
+            <div className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-center">
               <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
               <h3 className="text-2xl font-bold mb-2 text-foreground">Thank You!</h3>
               <p className="text-muted-foreground">
@@ -107,7 +107,7 @@ export default function Contact() {
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] space-y-6 animate-fade-in-up">
+            <form onSubmit={handleSubmit} className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] space-y-6">
               {error && (
                 <div className="p-4 bg-red-100 text-red-700 rounded-lg text-center">
                   {error}
@@ -162,12 +162,16 @@ export default function Contact() {
                 ></textarea>
               </div>
 
-              {/* Reusable ReCAPTCHA */}
-              <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
+              {/* ReCAPTCHA - Site Key from .env */}
+              <ReCAPTCHAComponent 
+                ref={recaptchaRef} 
+                onChange={handleRecaptchaChange}
+                siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              />
 
               <button
                 type="submit"
-                className="w-full px-8 py-3 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-primary-foreground rounded-lg hover:bg-[#1E1E1E] hover:shadow-lg transition-all duration-300 font-semibold shadow-md"
+                className="w-full px-8 py-3 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-primary-foreground rounded-lg hover:shadow-lg transition-all duration-300 font-semibold shadow-md"
               >
                 Send Message
               </button>
@@ -179,7 +183,7 @@ export default function Contact() {
       {/* Contact Details and Map */}
       <section className="py-28 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-12 text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1] animate-fade-in">
+          <h2 className="text-4xl font-bold mb-12 text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1]">
             Reach Us
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -239,7 +243,7 @@ export default function Contact() {
             </div>
             {/* Google Maps Embed */}
             <div className="flex justify-center items-center">
-              <div className="w-full h-[450px] rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] overflow-hidden animate-fade-in-up">
+              <div className="w-full h-[450px] rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] overflow-hidden">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112316.51240720753!2d77.15868989726563!3d28.392359599999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cdd002a2eb621%3A0x182026953a2a03b4!2sGreaterTechHub%20(Worldwide%20with%20Top-Notch%20IT%20Services%20%26%20BPO%20Services)!5e0!3m2!1sen!2sin!4v1761468352437!5m2!1sen!2sin"
                   width="100%"

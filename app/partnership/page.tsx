@@ -1,3 +1,4 @@
+// app/partnership/page.tsx
 "use client"
 
 import type React from "react"
@@ -41,7 +42,7 @@ export default function Partnership() {
     }
 
     const data = {
-      access_key: "8739b33b-939a-4751-ad7b-f09ad3a1c955",
+      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
       ...formData,
       "g-recaptcha-response": recaptchaToken,
     }
@@ -103,16 +104,16 @@ export default function Partnership() {
   ]
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-gray-50">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA]">
+      <section className="relative py-24 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-foreground text-balance">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-white drop-shadow-lg bg-clip-text text-transparent bg-gradient-to-r from-white to-[#0288D1]">
             Partner With GreaterTechHub
           </h1>
-          <p className="text-xl text-foreground max-w-2xl">
+          <p className="text-xl text-white max-w-3xl mx-auto drop-shadow">
             Join us in delivering innovative technology solutions and growing together.
           </p>
         </div>
@@ -121,11 +122,16 @@ export default function Partnership() {
       {/* Partnership Types */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-12 text-center">Partnership Opportunities</h2>
+          <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Partnership Opportunities</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {partnershipTypes.map((type, index) => (
-              <div key={index} className="p-8 bg-secondary rounded-lg border border-border">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{type.title}</h3>
+              <div
+                key={index}
+                className="group p-8 bg-gradient-to-br from-[#B3E5FC]/5 to-[#81D4FA]/5 rounded-2xl border border-[#B3E5FC]/30 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+              >
+                <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-[#0288D1] transition-colors">
+                  {type.title}
+                </h3>
                 <p className="text-muted-foreground leading-relaxed">{type.description}</p>
               </div>
             ))}
@@ -134,10 +140,10 @@ export default function Partnership() {
       </section>
 
       {/* Benefits */}
-      <section className="py-20 bg-secondary">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-12 text-center">Why Partner With Us?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Why Partner With Us?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[
               "Access to cutting-edge technology and expertise",
               "Competitive partner margins and incentives",
@@ -146,9 +152,9 @@ export default function Partnership() {
               "Training and certification programs",
               "Regular partner events and networking",
             ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-4">
-                <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                <p className="text-lg text-foreground">{benefit}</p>
+              <div key={index} className="flex items-start gap-4 p-4">
+                <CheckCircle className="w-7 h-7 text-[#0288D1] flex-shrink-0 mt-0.5" />
+                <p className="text-lg text-foreground leading-relaxed">{benefit}</p>
               </div>
             ))}
           </div>
@@ -156,64 +162,64 @@ export default function Partnership() {
       </section>
 
       {/* Partnership Form */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-12 text-center">Get Started</h2>
+          <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Get Started</h2>
 
           {submitted ? (
-            <div className="p-8 bg-secondary rounded-lg border-2 border-accent text-center animate-fade-in-up">
-              <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 text-foreground">Thank You!</h3>
-              <p className="text-muted-foreground">
-                We've received your partnership inquiry. Our team will contact you shortly to discuss opportunities.
+            <div className="p-10 bg-gradient-to-br from-[#B3E5FC]/10 to-[#81D4FA]/10 rounded-2xl border-2 border-[#0288D1] text-center shadow-xl">
+              <CheckCircle className="w-20 h-20 text-[#0288D1] mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-3 text-foreground">Thank You!</h3>
+              <p className="text-muted-foreground text-lg">
+                We've received your partnership inquiry. Our team will contact you within 24 hours to discuss opportunities.
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-2xl shadow-xl border border-border">
               {error && (
-                <div className="p-4 bg-red-100 text-red-700 rounded-lg text-center">
+                <div className="p-4 bg-red-100 text-red-700 rounded-lg text-center font-medium">
                   {error}
                 </div>
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-foreground">Company Name</label>
+                  <label className="block text-sm font-semibold mb-2 text-foreground">Company Name *</label>
                   <input
                     type="text"
                     name="companyName"
                     value={formData.companyName}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                    placeholder="Your company name"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all"
+                    placeholder="ABC Technologies Pvt Ltd"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-foreground">Contact Name</label>
+                  <label className="block text-sm font-semibold mb-2 text-foreground">Contact Name *</label>
                   <input
                     type="text"
                     name="contactName"
                     value={formData.contactName}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                    placeholder="Your name"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all"
+                    placeholder="John Doe"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-foreground">Email</label>
+                  <label className="block text-sm font-semibold mb-2 text-foreground">Email *</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                    placeholder="your@email.com"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all"
+                    placeholder="john@abc.com"
                   />
                 </div>
                 <div>
@@ -223,20 +229,20 @@ export default function Partnership() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                    placeholder="+1 (234) 567-890"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all"
+                    placeholder="+91 98765 43210"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2 text-foreground">Partnership Type</label>
+                <label className="block text-sm font-semibold mb-2 text-foreground">Partnership Type *</label>
                 <select
                   name="partnershipType"
                   value={formData.partnershipType}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all appearance-none bg-white"
                 >
                   <option value="">Select partnership type</option>
                   <option value="technology">Technology Partners</option>
@@ -253,17 +259,17 @@ export default function Partnership() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                  placeholder="Tell us about your partnership interests..."
+                  className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all resize-none"
+                  placeholder="Tell us about your company, goals, and how we can collaborate..."
                 ></textarea>
               </div>
 
-              {/* ReCAPTCHA */}
+              {/* LIVE reCAPTCHA */}
               <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
 
               <button
                 type="submit"
-                className="w-full px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-[#1E1E1E] transition-colors font-semibold"
+                className="w-full px-8 py-4 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-primary-foreground rounded-lg hover:shadow-xl transition-all duration-300 font-bold text-lg shadow-lg"
               >
                 Submit Partnership Inquiry
               </button>

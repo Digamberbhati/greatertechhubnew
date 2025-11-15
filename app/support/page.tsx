@@ -1,3 +1,4 @@
+// app/support/page.tsx
 "use client"
 
 import type React from "react"
@@ -8,7 +9,7 @@ import { MessageCircle, Mail, Phone, Clock, CheckCircle } from "lucide-react"
 import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/ReCAPTCHA"
 
 export default function Support() {
-  const [activeTab, setActiveTab] = useState("contact")
+  const [activeTab, setActiveTab] = useState<"contact" | "faq">("contact")
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -39,7 +40,7 @@ export default function Support() {
     }
 
     const data = {
-      access_key: "8739b33b-939a-4751-ad7b-f09ad3a1c955",
+      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
       ...formData,
       "g-recaptcha-response": recaptchaToken,
     }
@@ -108,14 +109,16 @@ export default function Support() {
   ]
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-gray-50">
       <Navbar />
 
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-foreground text-balance">Support & Help</h1>
-          <p className="text-xl text-foreground max-w-2xl">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+            Support & Help
+          </h1>
+          <p className="text-xl text-white max-w-2xl drop-shadow">
             We're here to help. Get in touch with our support team or find answers to common questions.
           </p>
         </div>
@@ -135,8 +138,8 @@ export default function Support() {
               {
                 icon: Phone,
                 title: "Phone Support",
-                description: "+1 (234) 567-890",
-                detail: "Mon-Fri, 9AM-6PM EST",
+                description: "+91 9588160069",
+                detail: "Mon-Fri, 9AM-6PM IST",
               },
               {
                 icon: MessageCircle,
@@ -147,10 +150,10 @@ export default function Support() {
             ].map((option, index) => {
               const Icon = option.icon
               return (
-                <div key={index} className="p-8 bg-secondary rounded-lg border border-border text-center">
-                  <Icon className="w-12 h-12 text-accent mx-auto mb-4" />
+                <div key={index} className="p-8 bg-gradient-to-br from-[#B3E5FC]/10 to-[#81D4FA]/10 rounded-xl border border-[#B3E5FC]/30 text-center hover:shadow-xl hover:scale-105 transition-all duration-300">
+                  <Icon className="w-12 h-12 text-[#0288D1] mx-auto mb-4" />
                   <h3 className="text-2xl font-bold mb-2 text-foreground">{option.title}</h3>
-                  <p className="font-semibold text-foreground mb-2">{option.description}</p>
+                  <p className="font-semibold text-[#0288D1] mb-2">{option.description}</p>
                   <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
                     <Clock size={16} />
                     {option.detail}
@@ -170,7 +173,7 @@ export default function Support() {
               onClick={() => setActiveTab("contact")}
               className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
                 activeTab === "contact"
-                  ? "border-accent text-accent"
+                  ? "border-[#0288D1] text-[#0288D1]"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -180,7 +183,7 @@ export default function Support() {
               onClick={() => setActiveTab("faq")}
               className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
                 activeTab === "faq"
-                  ? "border-accent text-accent"
+                  ? "border-[#0288D1] text-[#0288D1]"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -192,17 +195,17 @@ export default function Support() {
           {activeTab === "contact" && (
             <div className="max-w-2xl mx-auto">
               {submitted ? (
-                <div className="p-8 bg-white rounded-lg border-2 border-accent text-center animate-fade-in-up">
-                  <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
+                <div className="p-8 bg-white rounded-xl shadow-2xl border-2 border-[#0288D1] text-center">
+                  <CheckCircle className="w-16 h-16 text-[#0288D1] mx-auto mb-4" />
                   <h3 className="text-2xl font-bold mb-2 text-foreground">Message Sent!</h3>
                   <p className="text-muted-foreground">
                     Thank you for contacting us. Our support team will get back to you shortly.
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg">
+                <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-xl shadow-lg border border-border">
                   {error && (
-                    <div className="p-4 bg-red-100 text-red-700 rounded-lg text-center">
+                    <div className="p-4 bg-red-100 text-red-700 rounded-lg text-center font-medium">
                       {error}
                     </div>
                   )}
@@ -216,7 +219,7 @@ export default function Support() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all"
                         placeholder="Your name"
                       />
                     </div>
@@ -228,7 +231,7 @@ export default function Support() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all"
                         placeholder="your@email.com"
                       />
                     </div>
@@ -242,7 +245,7 @@ export default function Support() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all"
                       placeholder="How can we help?"
                     />
                   </div>
@@ -255,17 +258,17 @@ export default function Support() {
                       onChange={handleChange}
                       rows={6}
                       required
-                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0288D1] focus:border-[#0288D1] transition-all resize-none"
                       placeholder="Tell us more about your issue..."
                     ></textarea>
                   </div>
 
-                  {/* ReCAPTCHA */}
+                  {/* LIVE reCAPTCHA */}
                   <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
 
                   <button
                     type="submit"
-                    className="w-full px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-[#1E1E1E] transition-colors font-semibold"
+                    className="w-full px-8 py-3 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-primary-foreground rounded-lg hover:shadow-lg transition-all duration-300 font-semibold shadow-md"
                   >
                     Send Message
                   </button>
@@ -278,7 +281,7 @@ export default function Support() {
           {activeTab === "faq" && (
             <div className="max-w-3xl mx-auto space-y-6">
               {faqs.map((faq, index) => (
-                <div key={index} className="p-6 bg-white rounded-lg border border-border">
+                <div key={index} className="p-6 bg-white rounded-xl border border-border hover:shadow-lg transition-shadow">
                   <h3 className="text-lg font-bold text-foreground mb-3">{faq.question}</h3>
                   <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
                 </div>
