@@ -8,21 +8,20 @@ import { StructuredData } from "@/components/structured-data"
 const geist = Geist({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  // Google Title (50-60 chars)
   title: "GreaterTechHub - IT Services Company in India | Web, App, AI, DevOps",
   description:
-    "Top IT services company in India offering web development, mobile apps, AI agents, DevOps, digital marketing, ERP/CRM, QA testing, and animation services.",
+    "Top IT services company in India offering web development, mobile apps, AI agents, DevOps, digital marketing, ERP/CRM, QA testing, animation, and cloud solutions.",
 
-  // 50+ High-Intent Keywords
   keywords: [
     "IT services India", "web development company India", "mobile app development India",
     "digital marketing agency India", "DevOps services India", "cloud computing India",
+    "cloud migration India", "cloudflare partner India", "cloud security India",
     "ERP development India", "CRM software India", "QA testing company",
     "AI development India", "chatbot development India", "AI agents India",
     "software company India", "custom software development", "ecommerce development India",
     "UI UX design India", "animation studio India", "2D 3D animation",
     "full stack development India", "React JS development", "Node JS development",
-    "Python development India", "AWS cloud India", "Azure cloud India",
+    "Python development India", "AWS cloud India", "Azure cloud India", "Google Cloud India",
     "cybersecurity services India", "IT consulting India", "software outsourcing India",
     "offshore development India", "SaaS development", "MVP development India",
     "startup tech solutions", "enterprise software India", "blockchain development India",
@@ -44,10 +43,10 @@ export const metadata: Metadata = {
     google: "-K5TQT7v0IXNRnuXU7terQ3xAw1XYA93AH0jiL6emJ8",
   },
 
-  // Open Graph (Facebook, LinkedIn, WhatsApp)
+  // Open Graph
   openGraph: {
-    title: "GreaterTechHub - IT Services & Software Development Company in India",
-    description: "Web, App, AI, DevOps, Digital Marketing & Animation | GreaterTechHub India",
+    title: "GreaterTechHub - IT Services & Cloud Solutions in India",
+    description: "Web, App, AI, DevOps, Cloudflare, Digital Marketing & Animation | GreaterTechHub",
     url: "https://greatertechhub.com",
     siteName: "GreaterTechHub",
     type: "website",
@@ -57,22 +56,21 @@ export const metadata: Metadata = {
         url: "https://greatertechhub.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "GreaterTechHub - IT Services India",
+        alt: "GreaterTechHub - Cloudflare Partner India",
       },
     ],
   },
 
-  // Twitter Card
+  // Twitter
   twitter: {
     card: "summary_large_image",
-    title: "GreaterTechHub - IT Services in India",
-    description: "Web, App, AI, DevOps, SEO & Animation | GreaterTechHub",
+    title: "GreaterTechHub - IT & Cloud Services",
+    description: "Web, App, AI, Cloudflare, DevOps, SEO | India",
     images: ["https://greatertechhub.com/og-image.png"],
     creator: "@greatertechhub",
     site: "@greatertechhub",
   },
 
-  // Robots
   robots: {
     index: true,
     follow: true,
@@ -85,16 +83,12 @@ export const metadata: Metadata = {
     },
   },
 
-  // Canonical URL
   alternates: {
     canonical: "https://greatertechhub.com",
   },
 
-  // Viewport & Theme
   viewport: "width=device-width, initial-scale=1",
   themeColor: "#ffffff",
-
-  // PWA
   manifest: "/manifest.json",
 }
 
@@ -133,7 +127,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        {/* Google Analytics (gtag.js) */}
+        {/* Cloudflare Web Analytics (Optional - Replace CF_ID if using) */}
+        {/* <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_CLOUDFLARE_ID"}'></script> */}
+
+        {/* Google Analytics */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-XWWRYNW41Z"
@@ -146,7 +143,7 @@ export default function RootLayout({
               gtag('js', new Date());
               gtag('config', 'G-XWWRYNW41Z', {
                 send_page_view: true,
-                page_path: window.location.pathname + window.location.search
+                transport_type: 'beacon'
               });
             `,
           }}
