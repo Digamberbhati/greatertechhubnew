@@ -1,24 +1,21 @@
 {
-  "name": "GreaterTechHub - IT Services & Technology Solutions",
-  "short_name": "GreaterTechHub",
-  "description": "Leading IT services company offering comprehensive technology solutions",
+  "name": "GreaterTechHub",
+  "short_name": "GTH",
+  "description": "IT Services & Software Development Company in India",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
-  "orientation": "portrait-primary",
+  "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/logo.ico",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/ico"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/logo.ico",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/ico"
     }
   ]
 }
