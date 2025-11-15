@@ -42,7 +42,7 @@ const services = [
   { icon: Cloud, title: 'DevOps & Cloud', description: 'Scalable cloud infrastructure', href: '/services/devops' },
   { icon: Briefcase, title: 'CRM & ERP Systems', description: 'Streamline business operations', href: '/services/erp-crm' },
   { icon: Network, title: 'IT Infrastructure', description: 'Secure & reliable networks', href: '/services/it-infrastructure-audit' },
-  { icon: Film, title: '2D/3D Animation', description: 'Engaging visual storytelling', href: '/services/2d-3d-animation' },
+  { icon: Film, title: '2D/3D Animation', description: 'Engaging visual storytelling', href: '/services/animation' },
   { icon: ClipboardCheck, title: 'QA & Testing', description: 'Ensure quality & performance', href: '/services/qa-testing' },
 ];
 

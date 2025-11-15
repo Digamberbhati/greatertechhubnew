@@ -162,9 +162,9 @@ export default function Contact() {
                 ></textarea>
               </div>
 
-              {/* ReCAPTCHA - Site Key from .env */}
-              <ReCAPTCHAComponent 
-                ref={recaptchaRef} 
+              {/* ReCAPTCHA */}
+              <ReCAPTCHAComponent
+                ref={recaptchaRef}
                 onChange={handleRecaptchaChange}
                 siteKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
               />
@@ -201,6 +201,7 @@ export default function Contact() {
                   Speak directly with our experts during business hours.
                 </p>
               </div>
+
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Send Us an Email</h3>
                 <div className="flex items-center gap-4">
@@ -213,6 +214,7 @@ export default function Contact() {
                   Send us an email, and we'll respond within 1 minute.
                 </p>
               </div>
+
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Post & Mail</h3>
                 <div className="flex items-start gap-4">
@@ -226,21 +228,23 @@ export default function Contact() {
                   </p>
                 </div>
               </div>
+
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Follow Us</h3>
                 <div className="flex gap-4">
-                  <a href="https://twitter.com/yourprofile" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] hover:scale-110 transition-all duration-300">
+                  <a href="https://x.com/greatertechhub" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] hover:scale-110 transition-all duration-300">
                     <Twitter className="w-6 h-6 text-accent hover:text-primary-foreground" />
                   </a>
-                  <a href="https://linkedin.com/company/yourprofile" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] hover:scale-110 transition-all duration-300">
+                  <a href="https://www.linkedin.com/company/greatertechhub" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] hover:scale-110 transition-all duration-300">
                     <Linkedin className="w-6 h-6 text-accent hover:text-primary-foreground" />
                   </a>
-                  <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] hover:scale-110 transition-all duration-300">
+                  <a href="https://www.instagram.com/greatertechhub" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] hover:scale-110 transition-all duration-300">
                     <Instagram className="w-6 h-6 text-accent hover:text-primary-foreground" />
                   </a>
                 </div>
               </div>
             </div>
+
             {/* Google Maps Embed */}
             <div className="flex justify-center items-center">
               <div className="w-full h-[450px] rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] overflow-hidden">
