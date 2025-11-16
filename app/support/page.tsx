@@ -6,7 +6,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useState, useRef } from "react"
 import { MessageCircle, Mail, Phone, Clock, CheckCircle } from "lucide-react"
-import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/ReCAPTCHA"
+import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/hcaptcha"
 
 export default function Support() {
   const [activeTab, setActiveTab] = useState<"contact" | "faq">("contact")

@@ -6,7 +6,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useState, useRef } from "react"
 import { CheckCircle, Gift, TrendingUp, Users } from "lucide-react"
-import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/ReCAPTCHA"
+import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/hcaptcha"
 
 export default function ReferEarn() {
   const [referralData, setReferralData] = useState({

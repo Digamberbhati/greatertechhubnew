@@ -1,10 +1,19 @@
-"use client"
+"use client";
 
-import React, { useState, useRef, useEffect } from "react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { CheckCircle, Mail, Phone, MapPin, Twitter, Linkedin, Instagram } from "lucide-react"
-import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/ReCAPTCHA"
+import React, { useState, useRef, useEffect } from "react";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import {
+  CheckCircle,
+  Mail,
+  Phone,
+  MapPin,
+  Twitter,
+  Linkedin,
+  Instagram,
+} from "lucide-react";
+
+import HCAPTCHAComponent, { HCAPTCHARef } from "@/components/hcaptcha";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,81 +21,80 @@ export default function Contact() {
     email: "",
     subject: "",
     message: "",
-  })
+  });
 
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const recaptchaRef = useRef<ReCAPTCHARef>(null)
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [hcaptchaToken, setHcaptchaToken] = useState<string | null>(null);
+  const hcaptchaRef = useRef<HCAPTCHARef>(null);
 
-  // Real-time check: Enable button only when reCAPTCHA is ticked
   useEffect(() => {
-    const checkToken = () => {
-      const token = recaptchaRef.current?.getValue()
-      setRecaptchaToken(token || null)
-    }
+    const check = () => {
+      const t = hcaptchaRef.current?.getValue() ?? null;
+      setHcaptchaToken(t);
+    };
+    const id = setInterval(check, 500);
+    return () => clearInterval(id);
+  }, []);
 
-    const interval = setInterval(checkToken, 500) // Check every 0.5 sec
-    return () => clearInterval(interval)
-  }, [])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    if (error) setError(null)
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (error) setError(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!recaptchaToken) {
-      setError("Please complete the reCAPTCHA.")
-      return
+    e.preventDefault();
+
+    const token = hcaptchaRef.current?.getValue();
+    if (!token) {
+      setError("Please complete the hCaptcha.");
+      return;
     }
 
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
-    const data = {
-      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+    const payload = {
+      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY!,
       ...formData,
-      "g-recaptcha-response": recaptchaToken,
-    }
+      "h-captcha-response": token,
+    };
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
+        body: JSON.stringify(payload),
+      });
 
-      const result = await response.json()
+      const data = await res.json();
 
-      if (result.success) {
-        setSubmitted(true)
-        setFormData({ name: "", email: "", subject: "", message: "" })
-        recaptchaRef.current?.reset()
-        setRecaptchaToken(null)
-        setTimeout(() => setSubmitted(false), 4000)
+      if (data.success) {
+        setSubmitted(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        hcaptchaRef.current?.reset();
+        setHcaptchaToken(null);
+        setTimeout(() => setSubmitted(false), 4000);
       } else {
-        setError("Failed to send. Try again.")
-        recaptchaRef.current?.reset()
-        setRecaptchaToken(null)
+        setError(data.message || "Failed to send. Try again.");
+        hcaptchaRef.current?.reset();
       }
     } catch {
-      setError("Network error. Try again.")
-      recaptchaRef.current?.reset()
-      setRecaptchaToken(null)
+      setError("Network error. Try again.");
+      hcaptchaRef.current?.reset();
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
 
-      {/* Hero */}
       <section className="relative py-28 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1] drop-shadow-md">
@@ -98,7 +106,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Form */}
       <section className="py-28 bg-white relative">
         <div className="absolute inset-0 bg-gradient-to-r from-[#B3E5FC]/10 to-[#81D4FA]/10"></div>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -113,28 +120,63 @@ export default function Contact() {
               <p className="text-muted-foreground">Message sent. We'll reply soon!</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] space-y-6">
+            <form
+              onSubmit={handleSubmit}
+              className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] space-y-6"
+            >
               {error && (
                 <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-center text-sm">
                   {error}
                 </div>
               )}
 
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all" placeholder="Your Name" />
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all" placeholder="your@email.com" />
-              <input type="text" name="subject" value={formData.subject} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all" placeholder="Subject" />
-              <textarea name="message" value={formData.message} onChange={handleChange} rows={6} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all resize-none" placeholder="Your Message..."></textarea>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all"
+                placeholder="Your Name"
+              />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all"
+                placeholder="your@email.com"
+              />
+              <input
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all"
+                placeholder="Subject"
+              />
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                rows={6}
+                required
+                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all resize-none"
+                placeholder="Your Message..."
+              />
 
-              <ReCAPTCHAComponent ref={recaptchaRef} />
+              <HCAPTCHAComponent ref={hcaptchaRef} />
 
               <button
                 type="submit"
-                disabled={loading || !recaptchaToken}
+                disabled={loading || !hcaptchaToken}
                 className="w-full px-8 py-3 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-white rounded-lg hover:shadow-lg transition-all font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     Sending...
                   </>
                 ) : (
@@ -146,7 +188,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Info */}
       <section className="py-28 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-12 text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1]">
@@ -158,32 +199,48 @@ export default function Contact() {
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Call Us</h3>
                 <div className="flex items-center gap-4">
                   <Phone className="w-6 h-6 text-accent" />
-                  <a href="tel:+919588160069" className="text-lg hover:text-accent">+91 9588160069</a>
+                  <a href="tel:+919588160069" className="text-lg hover:text-accent">
+                    +91 9588160069
+                  </a>
                 </div>
               </div>
+
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Email Us</h3>
                 <div className="flex items-center gap-4">
                   <Mail className="w-6 h-6 text-accent" />
-                  <a href="mailto:info@greatertechhub.com" className="text-lg hover:text-accent">info@greatertechhub.com</a>
+                  <a href="mailto:info@greatertechhub.com" className="text-lg hover:text-accent">
+                    info@greatertechhub.com
+                  </a>
                 </div>
               </div>
+
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Visit Us</h3>
                 <div className="flex items-start gap-4">
                   <MapPin className="w-6 h-6 text-accent mt-1" />
-                  <p className="text-foreground">3rd Floor, Krishna Palace, Ajronda Rd, Sector 20B, Faridabad, Haryana 121001</p>
+                  <p className="text-foreground">
+                    3rd Floor, Krishna Palace, Ajronda Rd, Sector 20B, Faridabad, Haryana 121001
+                  </p>
                 </div>
               </div>
+
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">Follow Us</h3>
                 <div className="flex gap-4">
-                  <a href="https://x.com/greatertechhub" target="_blank" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all"><Twitter className="w-6 h-6 text-accent" /></a>
-                  <a href="https://linkedin.com/company/greatertechhub" target="_blank" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all"><Linkedin className="w-6 h-6 text-accent" /></a>
-                  <a href="https://instagram.com/greatertechhub" target="_blank" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all"><Instagram className="w-6 h-6 text-accent" /></a>
+                  <a href="https://x.com/greatertechhub" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all">
+                    <Twitter className="w-6 h-6 text-accent" />
+                  </a>
+                  <a href="https://linkedin.com/company/greatertechhub" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all">
+                    <Linkedin className="w-6 h-6 text-accent" />
+                  </a>
+                  <a href="https://instagram.com/greatertechhub" target="_blank" rel="noopener noreferrer" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all">
+                    <Instagram className="w-6 h-6 text-accent" />
+                  </a>
                 </div>
               </div>
             </div>
+
             <div className="flex justify-center items-center">
               <div className="w-full h-[450px] rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] overflow-hidden">
                 <iframe
@@ -194,7 +251,8 @@ export default function Contact() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
+                  title="GreaterTechHub Location"
+                />
               </div>
             </div>
           </div>
@@ -203,5 +261,5 @@ export default function Contact() {
 
       <Footer />
     </main>
-  )
+  );
 }

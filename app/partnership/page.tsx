@@ -6,7 +6,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useState, useRef } from "react"
 import { CheckCircle } from "lucide-react"
-import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/ReCAPTCHA"
+import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/hcaptcha"
 
 export default function Partnership() {
   const [formData, setFormData] = useState({
