@@ -1,12 +1,12 @@
 // app/partnership/page.tsx
-"use client"
+"use client";
 
-import type React from "react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { useState, useRef } from "react"
-import { CheckCircle } from "lucide-react"
-import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/hcaptcha"
+import type React from "react";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { useState, useRef, useEffect } from "react";
+import { CheckCircle } from "lucide-react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 export default function Partnership() {
   const [formData, setFormData] = useState({
@@ -16,36 +16,51 @@ export default function Partnership() {
     phone: "",
     partnershipType: "",
     message: "",
-  })
+  });
 
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const recaptchaRef = useRef<ReCAPTCHARef>(null)
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hcaptchaToken, setHcaptchaToken] = useState<string | null>(null);
+  const hcaptchaRef = useRef<any>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  // Real-time token check
+  useEffect(() => {
+    const check = () => {
+      const t = hcaptchaRef.current?.getResponse() ?? null;
+      setHcaptchaToken(t);
+    };
+    const id = setInterval(check, 500);
+    return () => clearInterval(id);
+  }, []);
 
-  const handleRecaptchaChange = (token: string | null) => {
-    setRecaptchaToken(token)
-    setError(null)
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (error) setError(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!recaptchaToken) {
-      setError("Please complete the reCAPTCHA verification.")
-      return
+    const token = hcaptchaRef.current?.getResponse();
+    if (!token) {
+      setError("Please complete the hCaptcha verification.");
+      return;
+    }
+
+    const accessKey = (process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "").trim();
+    if (!accessKey) {
+      setError("Access key missing.");
+      return;
     }
 
     const data = {
-      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+      access_key: accessKey,
       ...formData,
-      "g-recaptcha-response": recaptchaToken,
-    }
+      "h-captcha-response": token,
+    };
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -55,12 +70,12 @@ export default function Partnership() {
           Accept: "application/json",
         },
         body: JSON.stringify(data),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (result.success) {
-        setSubmitted(true)
+        setSubmitted(true);
         setFormData({
           companyName: "",
           contactName: "",
@@ -68,21 +83,21 @@ export default function Partnership() {
           phone: "",
           partnershipType: "",
           message: "",
-        })
-        setRecaptchaToken(null)
-        recaptchaRef.current?.reset()
-        setTimeout(() => setSubmitted(false), 3000)
+        });
+        setHcaptchaToken(null);
+        hcaptchaRef.current?.resetCaptcha();
+        setTimeout(() => setSubmitted(false), 3000);
       } else {
-        setError("Submission failed. Please try again.")
-        recaptchaRef.current?.reset()
-        setRecaptchaToken(null)
+        setError(result.message || "Submission failed. Please try again.");
+        hcaptchaRef.current?.resetCaptcha();
+        setHcaptchaToken(null);
       }
     } catch (err) {
-      setError("Network error. Please try again.")
-      recaptchaRef.current?.reset()
-      setRecaptchaToken(null)
+      setError("Network error. Please try again.");
+      hcaptchaRef.current?.resetCaptcha();
+      setHcaptchaToken(null);
     }
-  }
+  };
 
   const partnershipTypes = [
     {
@@ -101,7 +116,7 @@ export default function Partnership() {
       title: "Integration Partners",
       description: "Integrate your platform with our services for enhanced value",
     },
-  ]
+  ];
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -264,12 +279,20 @@ export default function Partnership() {
                 ></textarea>
               </div>
 
-              {/* LIVE reCAPTCHA */}
-              <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
+              {/* hCaptcha (FREE KEY) */}
+              <div className="flex justify-center my-6">
+                <HCaptcha
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  onVerify={(token) => setHcaptchaToken(token)}
+                  onExpire={() => setHcaptchaToken(null)}
+                  ref={hcaptchaRef}
+                />
+              </div>
 
               <button
                 type="submit"
-                className="w-full px-8 py-4 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-primary-foreground rounded-lg hover:shadow-xl transition-all duration-300 font-bold text-lg shadow-lg"
+                disabled={!hcaptchaToken}
+                className="w-full px-8 py-4 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-primary-foreground rounded-lg hover:shadow-xl transition-all duration-300 font-bold text-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Submit Partnership Inquiry
               </button>
@@ -280,5 +303,5 @@ export default function Partnership() {
 
       <Footer />
     </main>
-  )
+  );
 }

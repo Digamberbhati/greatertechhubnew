@@ -1,12 +1,12 @@
 // app/refer-earn/page.tsx
-"use client"
+"use client";
 
-import type React from "react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { useState, useRef } from "react"
-import { CheckCircle, Gift, TrendingUp, Users } from "lucide-react"
-import ReCAPTCHAComponent, { ReCAPTCHARef } from "@/components/hcaptcha"
+import type React from "react";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { useState, useRef, useEffect } from "react";
+import { CheckCircle, Gift, TrendingUp, Users } from "lucide-react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 export default function ReferEarn() {
   const [referralData, setReferralData] = useState({
@@ -16,36 +16,51 @@ export default function ReferEarn() {
     clientEmail: "",
     clientCompany: "",
     serviceInterest: "",
-  })
+  });
 
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const recaptchaRef = useRef<ReCAPTCHARef>(null)
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hcaptchaToken, setHcaptchaToken] = useState<string | null>(null);
+  const hcaptchaRef = useRef<any>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setReferralData((prev) => ({ ...prev, [name]: value }))
-  }
+  // Real-time token check
+  useEffect(() => {
+    const check = () => {
+      const t = hcaptchaRef.current?.getResponse() ?? null;
+      setHcaptchaToken(t);
+    };
+    const id = setInterval(check, 500);
+    return () => clearInterval(id);
+  }, []);
 
-  const handleRecaptchaChange = (token: string | null) => {
-    setRecaptchaToken(token)
-    setError(null)
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setReferralData((prev) => ({ ...prev, [name]: value }));
+    if (error) setError(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!recaptchaToken) {
-      setError("Please complete the reCAPTCHA verification.")
-      return
+    const token = hcaptchaRef.current?.getResponse();
+    if (!token) {
+      setError("Please complete the hCaptcha verification.");
+      return;
+    }
+
+    const accessKey = (process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "").trim();
+    if (!accessKey) {
+      setError("Access key missing.");
+      return;
     }
 
     const data = {
-      access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY, // ← .env se
+      access_key: accessKey,
       ...referralData,
-      "g-recaptcha-response": recaptchaToken,
-    }
+      "h-captcha-response": token,
+    };
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -55,12 +70,12 @@ export default function ReferEarn() {
           Accept: "application/json",
         },
         body: JSON.stringify(data),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (result.success) {
-        setSubmitted(true)
+        setSubmitted(true);
         setReferralData({
           referrerName: "",
           referrerEmail: "",
@@ -68,21 +83,21 @@ export default function ReferEarn() {
           clientEmail: "",
           clientCompany: "",
           serviceInterest: "",
-        })
-        setRecaptchaToken(null)
-        recaptchaRef.current?.reset()
-        setTimeout(() => setSubmitted(false), 3000)
+        });
+        setHcaptchaToken(null);
+        hcaptchaRef.current?.resetCaptcha();
+        setTimeout(() => setSubmitted(false), 3000);
       } else {
-        setError("Submission failed. Please try again.")
-        recaptchaRef.current?.reset()
-        setRecaptchaToken(null)
+        setError(result.message || "Submission failed. Please try again.");
+        hcaptchaRef.current?.resetCaptcha();
+        setHcaptchaToken(null);
       }
     } catch (err) {
-      setError("Network error. Please try again.")
-      recaptchaRef.current?.reset()
-      setRecaptchaToken(null)
+      setError("Network error. Please try again.");
+      hcaptchaRef.current?.resetCaptcha();
+      setHcaptchaToken(null);
     }
-  }
+  };
 
   return (
     <main className="min-h-screen">
@@ -91,7 +106,9 @@ export default function ReferEarn() {
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-foreground text-balance">Refer & Earn</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-foreground text-balance">
+            Refer & Earn
+          </h1>
           <p className="text-xl text-foreground max-w-2xl">
             Share GreaterTechHub with your network and earn attractive rewards.
           </p>
@@ -120,14 +137,14 @@ export default function ReferEarn() {
                 description: "Receive your referral commission",
               },
             ].map((item, index) => {
-              const Icon = item.icon
+              const Icon = item.icon;
               return (
                 <div key={index} className="text-center">
                   <Icon className="w-16 h-16 text-accent mx-auto mb-4" />
                   <h3 className="text-2xl font-bold mb-2 text-foreground">{item.step}</h3>
                   <p className="text-muted-foreground">{item.description}</p>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -155,7 +172,10 @@ export default function ReferEarn() {
                 description: "Earn 20% commission for enterprise contracts",
               },
             ].map((reward, index) => (
-              <div key={index} className="p-8 bg-white rounded-lg border-2 border-accent text-center">
+              <div
+                key={index}
+                className="p-8 bg-white rounded-lg border-2 border-accent text-center"
+              >
                 <h3 className="text-2xl font-bold mb-2 text-foreground">{reward.title}</h3>
                 <p className="text-5xl font-bold text-accent mb-4">{reward.commission}</p>
                 <p className="text-muted-foreground">{reward.description}</p>
@@ -283,12 +303,20 @@ export default function ReferEarn() {
                 </select>
               </div>
 
-              {/* LIVE reCAPTCHA */}
-              <ReCAPTCHAComponent ref={recaptchaRef} onChange={handleRecaptchaChange} />
+              {/* hCaptcha (FREE KEY) */}
+              <div className="flex justify-center my-6">
+                <HCaptcha
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  onVerify={(token) => setHcaptchaToken(token)}
+                  onExpire={() => setHcaptchaToken(null)}
+                  ref={hcaptchaRef}
+                />
+              </div>
 
               <button
                 type="submit"
-                className="w-full px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-[#1E1E1E] transition-colors font-semibold"
+                disabled={!hcaptchaToken}
+                className="w-full px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-[#1E1E1E] transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Submit Referral
               </button>
@@ -299,5 +327,5 @@ export default function ReferEarn() {
 
       <Footer />
     </main>
-  )
+  );
 }
