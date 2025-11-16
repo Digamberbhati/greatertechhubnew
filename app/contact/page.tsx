@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { CheckCircle, Mail, Phone, MapPin, Twitter, Linkedin, Instagram } from "lucide-react"
@@ -17,7 +17,19 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
   const recaptchaRef = useRef<ReCAPTCHARef>(null)
+
+  // Real-time check: Enable button only when reCAPTCHA is ticked
+  useEffect(() => {
+    const checkToken = () => {
+      const token = recaptchaRef.current?.getValue()
+      setRecaptchaToken(token || null)
+    }
+
+    const interval = setInterval(checkToken, 500) // Check every 0.5 sec
+    return () => clearInterval(interval)
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -27,21 +39,18 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
-    setError(null)
-
-    const token = recaptchaRef.current?.getValue()
-
-    if (!token) {
-      setError("Please complete the reCAPTCHA verification.")
-      setLoading(false)
+    if (!recaptchaToken) {
+      setError("Please complete the reCAPTCHA.")
       return
     }
+
+    setLoading(true)
+    setError(null)
 
     const data = {
       access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
       ...formData,
-      "g-recaptcha-response": token,
+      "g-recaptcha-response": recaptchaToken,
     }
 
     try {
@@ -57,38 +66,39 @@ export default function Contact() {
         setSubmitted(true)
         setFormData({ name: "", email: "", subject: "", message: "" })
         recaptchaRef.current?.reset()
+        setRecaptchaToken(null)
         setTimeout(() => setSubmitted(false), 4000)
       } else {
-        setError("Failed to send message. Please try again.")
+        setError("Failed to send. Try again.")
         recaptchaRef.current?.reset()
+        setRecaptchaToken(null)
       }
     } catch {
-      setError("Network error. Please try again later.")
+      setError("Network error. Try again.")
       recaptchaRef.current?.reset()
+      setRecaptchaToken(null)
     } finally {
       setLoading(false)
     }
   }
 
-  const isSubmitDisabled = loading || !recaptchaRef.current?.getValue()
-
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="relative py-28 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1] drop-shadow-md">
             Contact GreaterTechHub
           </h1>
           <p className="text-xl text-foreground max-w-2xl mx-auto drop-shadow-sm">
-            Choose the most convenient way to reach us. We're here to help you succeed with the right technology solutions.
+            Reach out to us. We're here to help.
           </p>
         </div>
       </section>
 
-      {/* Contact Form */}
+      {/* Form */}
       <section className="py-28 bg-white relative">
         <div className="absolute inset-0 bg-gradient-to-r from-[#B3E5FC]/10 to-[#81D4FA]/10"></div>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -100,7 +110,7 @@ export default function Contact() {
             <div className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-center">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
               <h3 className="text-2xl font-bold mb-2 text-foreground">Thank You!</h3>
-              <p className="text-muted-foreground">Your message has been sent. We'll reply soon!</p>
+              <p className="text-muted-foreground">Message sent. We'll reply soon!</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="p-8 bg-white rounded-xl shadow-2xl border-2 border-transparent bg-clip-border border-gradient-to-r from-[#B3E5FC] to-[#81D4FA] space-y-6">
@@ -110,48 +120,16 @@ export default function Contact() {
                 </div>
               )}
 
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all"
-                placeholder="Your name"
-              />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all"
-                placeholder="your@email.com"
-              />
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all"
-                placeholder="Subject"
-              />
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={6}
-                required
-                className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all resize-none"
-                placeholder="Your message..."
-              />
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all" placeholder="Your Name" />
+              <input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all" placeholder="your@email.com" />
+              <input type="text" name="subject" value={formData.subject} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all" placeholder="Subject" />
+              <textarea name="message" value={formData.message} onChange={handleChange} rows={6} required className="w-full px-4 py-3 bg-gray-50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white transition-all resize-none" placeholder="Your Message..."></textarea>
 
               <ReCAPTCHAComponent ref={recaptchaRef} />
 
               <button
                 type="submit"
-                disabled={isSubmitDisabled}
+                disabled={loading || !recaptchaToken}
                 className="w-full px-8 py-3 bg-gradient-to-r from-[#B3E5FC] to-[#81D4FA] text-white rounded-lg hover:shadow-lg transition-all font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
@@ -168,7 +146,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Details */}
+      {/* Contact Info */}
       <section className="py-28 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold mb-12 text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#B3E5FC] to-[#0288D1]">
@@ -177,28 +155,28 @@ export default function Contact() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-8">
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Call</h3>
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Call Us</h3>
                 <div className="flex items-center gap-4">
                   <Phone className="w-6 h-6 text-accent" />
                   <a href="tel:+919588160069" className="text-lg hover:text-accent">+91 9588160069</a>
                 </div>
               </div>
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Email</h3>
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Email Us</h3>
                 <div className="flex items-center gap-4">
                   <Mail className="w-6 h-6 text-accent" />
                   <a href="mailto:info@greatertechhub.com" className="text-lg hover:text-accent">info@greatertechhub.com</a>
                 </div>
               </div>
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Visit</h3>
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Visit Us</h3>
                 <div className="flex items-start gap-4">
                   <MapPin className="w-6 h-6 text-accent mt-1" />
                   <p className="text-foreground">3rd Floor, Krishna Palace, Ajronda Rd, Sector 20B, Faridabad, Haryana 121001</p>
                 </div>
               </div>
               <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Follow</h3>
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Follow Us</h3>
                 <div className="flex gap-4">
                   <a href="https://x.com/greatertechhub" target="_blank" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all"><Twitter className="w-6 h-6 text-accent" /></a>
                   <a href="https://linkedin.com/company/greatertechhub" target="_blank" className="p-2 bg-accent/10 rounded-full hover:bg-gradient-to-r hover:from-[#B3E5FC] hover:to-[#81D4FA] transition-all"><Linkedin className="w-6 h-6 text-accent" /></a>
