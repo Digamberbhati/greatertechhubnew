@@ -12,8 +12,7 @@ import {
   Linkedin,
   Instagram,
 } from "lucide-react";
-
-import HCAPTCHAComponent, { HCAPTCHARef } from "@/components/hcaptcha";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -27,11 +26,11 @@ export default function Contact() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [hcaptchaToken, setHcaptchaToken] = useState<string | null>(null);
-  const hcaptchaRef = useRef<HCAPTCHARef>(null);
+  const hcaptchaRef = useRef<any>(null);
 
   useEffect(() => {
     const check = () => {
-      const t = hcaptchaRef.current?.getValue() ?? null;
+      const t = hcaptchaRef.current?.getResponse() ?? null;
       setHcaptchaToken(t);
     };
     const id = setInterval(check, 500);
@@ -49,7 +48,7 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const token = hcaptchaRef.current?.getValue();
+    const token = hcaptchaRef.current?.getResponse();
     if (!token) {
       setError("Please complete the hCaptcha.");
       return;
@@ -76,16 +75,16 @@ export default function Contact() {
       if (data.success) {
         setSubmitted(true);
         setFormData({ name: "", email: "", subject: "", message: "" });
-        hcaptchaRef.current?.reset();
+        hcaptchaRef.current?.resetCaptcha();
         setHcaptchaToken(null);
         setTimeout(() => setSubmitted(false), 4000);
       } else {
         setError(data.message || "Failed to send. Try again.");
-        hcaptchaRef.current?.reset();
+        hcaptchaRef.current?.resetCaptcha();
       }
     } catch {
       setError("Network error. Try again.");
-      hcaptchaRef.current?.reset();
+      hcaptchaRef.current?.resetCaptcha();
     } finally {
       setLoading(false);
     }
@@ -167,7 +166,12 @@ export default function Contact() {
                 placeholder="Your Message..."
               />
 
-              <HCAPTCHAComponent ref={hcaptchaRef} />
+              <HCaptcha
+                ref={hcaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY ?? "50b2fe65-b00b-4b9e-ad62-3ba471098be2"}
+                onVerify={(token) => setHcaptchaToken(token)}
+                onExpire={() => setHcaptchaToken(null)}
+              />
 
               <button
                 type="submit"
