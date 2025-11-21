@@ -262,7 +262,7 @@ export default function About() {
             <a href="/contact" className="px-8 py-3 bg-white text-primary rounded-lg hover:bg-gray-100 transition-colors font-bold">
               Get Free Consultation
             </a>
-            <a href="/careers" className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-colors font-bold">
+            <a href="/contact" className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-colors font-bold">
               Join Our Team
             </a>
           </div>

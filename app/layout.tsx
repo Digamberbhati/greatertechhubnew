@@ -8,7 +8,7 @@ import { StructuredData } from "@/components/structured-data"
 const geist = Geist({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "GreaterTechHub - IT Services Company in India | Web, App, AI, DevOps",
+  title: "GreaterTechHub",
   description:
     "Top IT services company in India offering web development, mobile apps, AI agents, DevOps, digital marketing, ERP/CRM, QA testing, animation, and cloud solutions.",
 
@@ -37,6 +37,8 @@ export const metadata: Metadata = {
   authors: [{ name: "GreaterTechHub", url: "https://greatertechhub.com" }],
   creator: "GreaterTechHub",
   publisher: "GreaterTechHub",
+  
+  
 
   // Google Search Console Verification
   verification: {
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
     images: [
       {
-        url: "https://greatertechhub.com/og-image.png",
+        url: "https://greatertechhub.com/logo.ico",
         width: 1200,
         height: 630,
         alt: "GreaterTechHub - Cloudflare Partner India",
@@ -66,7 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "GreaterTechHub - IT & Cloud Services",
     description: "Web, App, AI, Cloudflare, DevOps, SEO | India",
-    images: ["https://greatertechhub.com/og-image.png"],
+    images: ["https://greatertechhub.com/logo.ico"],
     creator: "@greatertechhub",
     site: "@greatertechhub",
   },
@@ -111,11 +113,11 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/logo.ico" type="image/x-icon" />
 
         {/* Apple Touch Icon */}
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/logo.ico" />
 
         {/* PWA Icons */}
-        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/logo.ico" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/logo.ico" />
 
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
